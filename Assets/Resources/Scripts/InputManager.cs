@@ -18,9 +18,4 @@ public class InputManager : MonoBehaviour
         if(direction == Vector2.zero) return;
         _controller.Move(direction);
     }
-
-    private void Start()
-    {
-        
-    }
 }
