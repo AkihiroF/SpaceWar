@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour
     public void OnMoving(InputValue value)
     {
         direction = value.Get<Vector2>();
+        _controller.RotatePlayer(direction);
     }
 
     private void Update()

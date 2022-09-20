@@ -6,6 +6,7 @@ TagManager:
   tags:
   - DeleteBullet
   - Enemy
+  - FInishForEnemy
   layers:
   - Default
   - TransparentFX

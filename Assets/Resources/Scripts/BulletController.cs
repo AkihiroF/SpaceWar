@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private float force;
+    [SerializeField] private float _damage;
 
 
     private void OnEnable()
@@ -23,8 +21,9 @@ public class BulletController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy");
+            collision.GetComponent<EnemyHP>().Damage(_damage);
             Destroy(this.gameObject);
         }
     }
+    
 }
