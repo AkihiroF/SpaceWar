@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour
     [Space] 
     private int row;
     private int collumn;
-    [SerializeField] private List<ArmyEnemy> enemysPosition;
+    private List<ArmyEnemy> enemysPosition;
     
     
     [SerializeField] private Vector2 sizeEnemy;
-    [SerializeField] private float speed;
+    private float speed;
 
     [Header("Objects")] [Space] 
     [SerializeField] private RectTransform _parentField;
@@ -56,7 +56,6 @@ public class EnemyController : MonoBehaviour
         var pos = finisGameObject.transform.position;
         _finishPositionEnemy = new Vector3(pos.x, pos.y - 5, pos.z);
         Debug.Log(_parentField.position);
-        CreateArmyEnemy(enemysPosition[volna]._PolkEnemies);
     }
 
     private void RemovePositionArmy()
@@ -72,7 +71,6 @@ public class EnemyController : MonoBehaviour
         row = army.Count;
         collumn = MathParameters.MatchCollumnEnemy(army);
         var size = MathParameters.MathSizeField(row, collumn, sizeEnemy, enemyLayoutGroup.spacing.x+enemyLayoutGroup.padding.bottom);
-        Debug.Log(size);
         enemyField.SetSize(size);
     }
 
@@ -89,6 +87,8 @@ public class EnemyController : MonoBehaviour
 
     private void CreateArmyEnemy(List<RowEnemy> enemysPoss)
     {
+        volna++;
+        NextVolna?.Invoke(volna);
         SetSizeField(enemysPoss);
         enemyLayoutGroup.enabled = true;
         enemys = new List<GameObject>();
@@ -121,9 +121,6 @@ public class EnemyController : MonoBehaviour
             enemysPosition.Remove(enemysPosition[0]);
             if (enemysPosition.Count != 0)
             {
-                volna++;
-                Debug.Log(volna);
-                NextVolna?.Invoke(volna);
                 CreateArmyEnemy(enemysPosition[0]._PolkEnemies);
             }
         }
@@ -144,5 +141,17 @@ public class EnemyController : MonoBehaviour
     public void DamagePlayer()
     {
         PlayerDamage?.Invoke();
+    }
+
+    public void StartAttack(List<ArmyEnemy> armyEnemies, float speedattack)
+    {
+        enemysPosition = armyEnemies;
+        speed = speedattack;
+        CreateArmyEnemy(enemysPosition[0]._PolkEnemies);
+    }
+
+    public void LosePlayer()
+    {
+        DOTween.Clear();
     }
 }

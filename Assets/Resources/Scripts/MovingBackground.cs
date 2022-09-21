@@ -8,7 +8,7 @@ public class MovingBackground : MonoBehaviour
     [SerializeField] private Transform _endPoint;
 
 
-    private void Start()
+    public void StartMoving()
     {
         _bodyBackGround.transform.DOMove(_endPoint.position, speed);
     }

@@ -41,19 +41,19 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Resources\Scripts\UnityMainThreadDispatcher.cs" />
      <Compile Include="Assets\Resources\Scripts\ModificateRectTransform.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyHP.cs" />
      <Compile Include="Assets\Resources\Scripts\GunController.cs" />
      <Compile Include="Assets\Resources\Scripts\ManagerScore.cs" />
      <Compile Include="Assets\Resources\Scripts\EnemyController.cs" />
+     <Compile Include="Assets\Resources\Scripts\SO\ArmyEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\MovingBackground.cs" />
      <Compile Include="Assets\Resources\Scripts\MathParameters.cs" />
      <Compile Include="Assets\Resources\Scripts\InputManager.cs" />
      <Compile Include="Assets\Resources\Scripts\BulletController.cs" />
      <Compile Include="Assets\Resources\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Resources\Scripts\SO\LevelGame.cs" />
-     <Compile Include="Assets\Resources\Scripts\SO\ArmyEnemy.cs" />
-     <Compile Include="Assets\Resources\Scripts\UnityMainThreadDispatcher.cs" />
+     <Compile Include="Assets\Resources\Scripts\SO\LevelArmy.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

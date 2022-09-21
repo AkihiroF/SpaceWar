@@ -387,7 +387,7 @@
 "Assets/Resources/Scripts/MovingBackground.cs"
 "Assets/Resources/Scripts/PlayerController.cs"
 "Assets/Resources/Scripts/SO/ArmyEnemy.cs"
-"Assets/Resources/Scripts/SO/LevelGame.cs"
+"Assets/Resources/Scripts/SO/LevelArmy.cs"
 "Assets/Resources/Scripts/UnityMainThreadDispatcher.cs"
 -langversion:9.0
 

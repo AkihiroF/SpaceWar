@@ -6,12 +6,18 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     [SerializeField] private PlayerController _controller;
+    [SerializeField] private ManagerScore _manager;
 
     private Vector2 direction;
     public void OnMoving(InputValue value)
     {
         direction = value.Get<Vector2>();
         _controller.RotatePlayer(direction);
+    }
+
+    public void OnRestartGame(InputValue value)
+    {
+        _manager.RestartGame();
     }
 
     private void Update()
