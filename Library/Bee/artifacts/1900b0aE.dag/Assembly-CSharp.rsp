@@ -377,6 +377,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Resources/Scripts/BulletController.cs"
+"Assets/Resources/Scripts/CustomEditor.cs"
 "Assets/Resources/Scripts/EnemyController.cs"
 "Assets/Resources/Scripts/EnemyHP.cs"
 "Assets/Resources/Scripts/GunController.cs"

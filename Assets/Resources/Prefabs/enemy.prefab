@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3097760499820707340}
   - component: {fileID: 3097760499820707343}
   - component: {fileID: 3097760499820707342}
-  - component: {fileID: 3097760499820707336}
   - component: {fileID: 7902325625602278221}
   - component: {fileID: -7914957691244241102}
+  - component: {fileID: 4857291484527026062}
   m_Layer: 5
   m_Name: Enemy
   m_TagString: Enemy
@@ -79,22 +79,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!58 &3097760499820707336
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3097760499820707331}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 40.88
 --- !u!114 &7902325625602278221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +114,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &4857291484527026062
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3097760499820707331}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 40

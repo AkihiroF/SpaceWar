@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ManagerScore : MonoBehaviour
@@ -56,6 +58,7 @@ public class ManagerScore : MonoBehaviour
 
     void Start()
     {
+        _panelGameOver.SetActive(false);
         _livesGroup = _panelLives.GetComponent<GridLayoutGroup>();
         _livesTransform = _panelLives.GetComponent<RectTransform>();
         _enemyController.EnemyKill += AddScore;
@@ -73,9 +76,9 @@ public class ManagerScore : MonoBehaviour
 
     private void CreateIconHP(int hp)
     {
+        _panelLives.SetActive(true);
         var size = MathParameters.MathSizeField(1, hp, sizeHeart, _livesGroup.spacing.x+_livesGroup.padding.bottom);
         _livesGroup.cellSize = sizeHeart;
-        Debug.Log(size);
         _livesTransform.SetSize(size);
         for (int i = 0; i < hp; i++)
         {
@@ -97,28 +100,32 @@ public class ManagerScore : MonoBehaviour
 
     private void Damage()
     {
+        if(_panelLives.transform.childCount != 0) Destroy(_panelLives.transform.GetChild(0).gameObject);
         hpPlayerMax -= 1;
         if (hpPlayerMax == 0)
         {
             Finish(false);
-            return;
         }
-        Destroy(_panelLives.transform.GetChild(0).gameObject);
     }
 
     private void Finish(bool win)
     {
         if (win)
         {
-            
+            _inputManager.enabled = false;
+            _enemyController.LosePlayer();
+            _panelGameOver.SetActive(true);
+            _gun.Restart(true);
+            _panelLives.SetActive(false);
         }
         else
         {
+            _gun.Restart(true);
             _inputManager.enabled = false;
             _enemyController.LosePlayer();
+            _panelGameOver.SetActive(true);
+            _panelLives.SetActive(false);
         }
-        
-        
     }
 
     private IEnumerator SeeMasage(int volnaa)
@@ -138,11 +145,12 @@ public class ManagerScore : MonoBehaviour
         _panelStart.SetActive(false);
         _background.StartMoving();
         AddScore(0);
+        _gun.Restart(false);
+        _gun.Fire();
         switch (slognost)
         {
             case 0:
                 CreateIconHP(hpPlayerMax);
-                _gun.Fire();
                 _enemyController.StartAttack(_levelEasy.Enemies, _speedEasy);
                 countVoln = _levelEasy.Enemies.Count;
                 _inputManager.enabled = true;
@@ -150,7 +158,6 @@ public class ManagerScore : MonoBehaviour
             case 1:
                 CreateIconHP(hpPlayerMax-1);
                 hpPlayerMax -= 1;
-                _gun.Fire();
                 _enemyController.StartAttack(_levelMedium.Enemies, _speedMedium);
                 countVoln = _levelMedium.Enemies.Count;
                 _inputManager.enabled = true;
@@ -158,7 +165,6 @@ public class ManagerScore : MonoBehaviour
             case 2:
                 CreateIconHP(1);
                 hpPlayerMax = 1;
-                _gun.Fire();
                 _enemyController.StartAttack(_levelHard.Enemies, _speedHard);
                 countVoln = _levelHard.Enemies.Count;
                 _inputManager.enabled = true;
@@ -168,6 +174,14 @@ public class ManagerScore : MonoBehaviour
 
     public void RestartGame()
     {
+        _gun.Restart(true);
+        _inputManager.enabled = false;
+        _MasageVolna.SetActive(false);
+        _panelGameOver.SetActive(false);
+        _panelStart.SetActive(true);
+        _enemyController.RemovePositionArmy();
+        _totalScore =0;
+        textScore.text = String.Empty;
         
     }
 }
