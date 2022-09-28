@@ -552,14 +552,6 @@ void RegisterAllStrippedInternalCalls()
 
 	//End Registrations for type : UnityEngine.CanvasRenderer
 
-	//Start Registrations for type : UnityEngine.Collider2D
-
-		//UnityEngine.Rigidbody2D UnityEngine.Collider2D::get_attachedRigidbody()
-		void Register_UnityEngine_Collider2D_get_attachedRigidbody();
-		Register_UnityEngine_Collider2D_get_attachedRigidbody();
-
-	//End Registrations for type : UnityEngine.Collider2D
-
 	//Start Registrations for type : UnityEngine.Component
 
 		//System.Void UnityEngine.Component::BroadcastMessage(System.String,System.Object,UnityEngine.SendMessageOptions)
@@ -885,10 +877,6 @@ void RegisterAllStrippedInternalCalls()
 		//System.Array UnityEngine.GameObject::GetComponentsInternal(System.Type,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Object)
 		void Register_UnityEngine_GameObject_GetComponentsInternal();
 		Register_UnityEngine_GameObject_GetComponentsInternal();
-
-		//System.Boolean UnityEngine.GameObject::CompareTag(System.String)
-		void Register_UnityEngine_GameObject_CompareTag();
-		Register_UnityEngine_GameObject_CompareTag();
 
 		//System.Boolean UnityEngine.GameObject::get_activeInHierarchy()
 		void Register_UnityEngine_GameObject_get_activeInHierarchy();
@@ -2458,10 +2446,6 @@ void RegisterAllStrippedInternalCalls()
 		void Register_UnityEngine_Rigidbody2D_get_rotation();
 		Register_UnityEngine_Rigidbody2D_get_rotation();
 
-		//System.Void UnityEngine.Rigidbody2D::AddForce_Injected(UnityEngine.Vector2&,UnityEngine.ForceMode2D)
-		void Register_UnityEngine_Rigidbody2D_AddForce_Injected();
-		Register_UnityEngine_Rigidbody2D_AddForce_Injected();
-
 		//System.Void UnityEngine.Rigidbody2D::MovePosition_Injected(UnityEngine.Vector2&)
 		void Register_UnityEngine_Rigidbody2D_MovePosition_Injected();
 		Register_UnityEngine_Rigidbody2D_MovePosition_Injected();
@@ -2473,10 +2457,6 @@ void RegisterAllStrippedInternalCalls()
 		//System.Void UnityEngine.Rigidbody2D::get_position_Injected(UnityEngine.Vector2&)
 		void Register_UnityEngine_Rigidbody2D_get_position_Injected();
 		Register_UnityEngine_Rigidbody2D_get_position_Injected();
-
-		//System.Void UnityEngine.Rigidbody2D::set_bodyType(UnityEngine.RigidbodyType2D)
-		void Register_UnityEngine_Rigidbody2D_set_bodyType();
-		Register_UnityEngine_Rigidbody2D_set_bodyType();
 
 		//System.Void UnityEngine.Rigidbody2D::set_position_Injected(UnityEngine.Vector2&)
 		void Register_UnityEngine_Rigidbody2D_set_position_Injected();

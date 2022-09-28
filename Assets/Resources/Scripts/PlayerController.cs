@@ -10,9 +10,10 @@ public class PlayerController : MonoBehaviour
     public void Move(Vector2 directionmoving)
     {
         var move = new Vector3(directionmoving.x * speed, 0);
-        _bodyPlayer.position = Vector3.Lerp(_bodyPlayer.position, _bodyPlayer.position + move, Time.deltaTime);
-        _bodyPlayer.position = new Vector3(Mathf.Clamp(_bodyPlayer.position.x, ogranichenie.x, ogranichenie.y),
-            _bodyPlayer.position.y);
+        var pos = _bodyPlayer.position;
+        pos = Vector3.Lerp(pos, pos + move, Time.deltaTime);
+        _bodyPlayer.position = new Vector3(Mathf.Clamp(pos.x, ogranichenie.x, ogranichenie.y),
+            pos.y);
     }
 
     public void RotatePlayer(Vector2 directionmoving)

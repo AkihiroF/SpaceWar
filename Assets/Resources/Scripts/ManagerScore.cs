@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ManagerScore : MonoBehaviour
@@ -61,9 +59,6 @@ public class ManagerScore : MonoBehaviour
         _panelGameOver.SetActive(false);
         _livesGroup = _panelLives.GetComponent<GridLayoutGroup>();
         _livesTransform = _panelLives.GetComponent<RectTransform>();
-        _enemyController.EnemyKill += AddScore;
-        _enemyController.PlayerDamage += Damage;
-        _enemyController.NextVolna += ChechVolna;
         _inputManager.enabled = false;
         _MasageVolna.SetActive(false);
     }
@@ -115,8 +110,11 @@ public class ManagerScore : MonoBehaviour
             _inputManager.enabled = false;
             _enemyController.LosePlayer();
             _panelGameOver.SetActive(true);
+            _panelGameOver.GetComponent<TextMeshProUGUI>().text = $"You are win!!! Your score = {_totalScore}";
             _gun.Restart(true);
             _panelLives.SetActive(false);
+            
+            _enemyController.ClearGameObject(_panelLives);
         }
         else
         {
@@ -124,8 +122,13 @@ public class ManagerScore : MonoBehaviour
             _inputManager.enabled = false;
             _enemyController.LosePlayer();
             _panelGameOver.SetActive(true);
+            _panelGameOver.GetComponent<TextMeshProUGUI>().text = $"You are Lose! Your score = {_totalScore}";
             _panelLives.SetActive(false);
+            _enemyController.ClearGameObject(_panelLives);
         }
+        _enemyController.EnemyKill -= AddScore;
+        _enemyController.PlayerDamage -= Damage;
+        _enemyController.NextVolna -= ChechVolna;
     }
 
     private IEnumerator SeeMasage(int volnaa)
@@ -142,8 +145,10 @@ public class ManagerScore : MonoBehaviour
 
     public void StartGame(int slognost)
     {
+        _enemyController.EnemyKill += AddScore;
+        _enemyController.PlayerDamage += Damage;
+        _enemyController.NextVolna += ChechVolna;
         _panelStart.SetActive(false);
-        _background.StartMoving();
         AddScore(0);
         _gun.Restart(false);
         _gun.Fire();
@@ -154,6 +159,7 @@ public class ManagerScore : MonoBehaviour
                 _enemyController.StartAttack(_levelEasy.Enemies, _speedEasy);
                 countVoln = _levelEasy.Enemies.Count;
                 _inputManager.enabled = true;
+                _background.StartMoving(MathParameters.MatchTimeBackground(_levelEasy.Enemies.Count, _speedEasy));
                 break;
             case 1:
                 CreateIconHP(hpPlayerMax-1);
@@ -161,6 +167,7 @@ public class ManagerScore : MonoBehaviour
                 _enemyController.StartAttack(_levelMedium.Enemies, _speedMedium);
                 countVoln = _levelMedium.Enemies.Count;
                 _inputManager.enabled = true;
+                _background.StartMoving(MathParameters.MatchTimeBackground(_levelMedium.Enemies.Count, _speedMedium));
                 break;
             case 2:
                 CreateIconHP(1);
@@ -168,6 +175,7 @@ public class ManagerScore : MonoBehaviour
                 _enemyController.StartAttack(_levelHard.Enemies, _speedHard);
                 countVoln = _levelHard.Enemies.Count;
                 _inputManager.enabled = true;
+                _background.StartMoving(MathParameters.MatchTimeBackground(_levelHard.Enemies.Count, _speedHard));
                 break;
         }
     }
@@ -182,6 +190,7 @@ public class ManagerScore : MonoBehaviour
         _enemyController.RemovePositionArmy();
         _totalScore =0;
         textScore.text = String.Empty;
+        DOTween.Clear();
         
     }
 }

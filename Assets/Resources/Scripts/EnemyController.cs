@@ -1,32 +1,22 @@
-
-using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Resources.Scripts.NoMano;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour
 {
     [Header("Parameters Array")]
-    [Space] 
-    private int row;
-    private int collumn;
+    [Space]
+    private int volna = 0;
     private List<ArmyEnemy> enemysPosition;
     
-    
-    [SerializeField] private Vector2 sizeEnemy;
     private float speed;
 
-    [Header("Objects")] [Space] 
-    [SerializeField] private RectTransform _parentField;
+    [Header("Objects")] [Space]
     [SerializeField]  private GameObject fieldWithEnemy;
     [SerializeField] private GameObject prefabEnemy;
-    [SerializeField] private GameObject prefabEmpty;
     [SerializeField] private GameObject finisGameObject;
 
-    [SerializeField] private GameObject prefabBullet;
-
-    private bool fire = true;
 
 
     public delegate void addScore(int score);
@@ -40,66 +30,28 @@ public class EnemyController : MonoBehaviour
     public event addScore EnemyKill;
 
     private List<GameObject> enemys;
-    private RectTransform enemyField;
-    private GridLayoutGroup enemyLayoutGroup;
     private Vector3 _startPositionEnemy;
     private Vector3 _finishPositionEnemy;
+    
 
-    public List<GameObject> fireenemy;
-
-    private int volna = 0;
-    private GameObject bullet;
-    private Rigidbody2D _rbBullet;
+    public ManipulateEnemy _manipulateEnemy;
     
 
 
     private void Start()
     {
-        enemyField = fieldWithEnemy.GetComponent<RectTransform>();
-        enemyLayoutGroup = fieldWithEnemy.GetComponent<GridLayoutGroup>();
-        enemyLayoutGroup.cellSize = sizeEnemy;
-        _startPositionEnemy = _parentField.position;
+        _startPositionEnemy = fieldWithEnemy.transform.position;
         var pos = finisGameObject.transform.position;
         _finishPositionEnemy = new Vector3(pos.x, pos.y - 5, pos.z);
-        bullet = Instantiate(prefabBullet);
-        _rbBullet = bullet.GetComponent<Rigidbody2D>();
-        _rbBullet.isKinematic = true;
-    }
-
-    public void RemovePositionArmy()
-    {
-        
-        _parentField.position =_startPositionEnemy;
-        ClearGameObject(fieldWithEnemy);
-        
-    }
-
-    private void SetSizeField(List<RowEnemy> army)
-    {
-        row = army.Count;
-        collumn = MathParameters.MatchCollumnEnemy(army);
-        var size = MathParameters.MathSizeField(row, collumn, sizeEnemy, enemyLayoutGroup.spacing.x+enemyLayoutGroup.padding.bottom);
-        enemyField.SetSize(size);
-    }
-
-    private void ClearGameObject(GameObject cleanerObject)
-    {
-        var children = cleanerObject.transform.childCount;
-        if(children == 0) return;
-        Debug.Log(children);
-        for (int i = 0; i < children; i++)
-        {
-            Destroy(cleanerObject.transform.GetChild(i).gameObject);
-        }
+        _manipulateEnemy = new ManipulateEnemy(fieldWithEnemy.transform);
     }
 
     private void CreateArmyEnemy(List<RowEnemy> enemysPoss)
     {
         volna++;
         NextVolna?.Invoke(volna);
-        SetSizeField(enemysPoss);
-        enemyLayoutGroup.enabled = true;
-        fireenemy = new List<GameObject>();
+        
+        _manipulateEnemy.SetSizeField(enemysPoss);
         enemys = new List<GameObject>();
         for (int i = 0; i < enemysPoss.Count; i++)
         {
@@ -107,66 +59,44 @@ public class EnemyController : MonoBehaviour
             {
                 if (_is)
                 {
-                    CreateGameObject(i == enemysPoss.Count-1);
-                }
-                else
-                {
-                    CreateEmpty();
+                    var enemy = CreateEnemyGameObject();
+                    enemys.Add(enemy);
+                    enemy.GetComponent<EnemyHP>().SetController(this);
                 }
             }
         }
-        _parentField.DOMove(_finishPositionEnemy, speed);
+        _manipulateEnemy.SetPositionEnemy(enemys, enemysPoss);
+        fieldWithEnemy.transform.DOMove(_finishPositionEnemy, speed);
+    }
+    public void ClearGameObject(GameObject cleanerObject)
+    {
+        var children = cleanerObject.transform.childCount;
+        if(children == 0) return;
+        for (int i = 0; i < children; i++)
+        {
+            Destroy(cleanerObject.transform.GetChild(i).gameObject);
+        }
+        
     }
 
-    public void KillEnemy(GameObject body, int score, GameObject nextfire)
+    public void KillEnemy(GameObject body, int score)
     {
-        enemyLayoutGroup.enabled = false;
         EnemyKill?.Invoke(score);
         enemys.Remove(body);
-        fireenemy.Remove(body);
-        if(nextfire != null) fireenemy.Add(nextfire);
         if (enemys.Count == 0)
         {
-            DOTween.Clear();
-            RemovePositionArmy();
-            enemysPosition.Remove(enemysPosition[0]);
-            if (enemysPosition.Count != 0)
+            _manipulateEnemy.RemovePositionArmy(_startPositionEnemy);
+            ClearGameObject(fieldWithEnemy);
+            if (volna != enemysPosition.Count)
             {
-                CreateArmyEnemy(enemysPosition[0]._PolkEnemies);
+                CreateArmyEnemy(enemysPosition[volna]._PolkEnemies);
             }
         }
     }
 
-    private int numb = 0;
-
-    private void CreateGameObject(bool last)
+    public GameObject CreateEnemyGameObject()
     {
-        GameObject enemy = Instantiate(prefabEnemy, fieldWithEnemy.transform);
-        enemy.GetComponent<EnemyHP>().SetController(this);
-        enemys.Add(enemy);
-        numb++;
-        enemy.name = $"{numb}";
-        if(last) fireenemy.Add(enemy);
-    }
-
-    private void CreateEmpty()
-    {
-        Instantiate(prefabEmpty, fieldWithEnemy.transform);
-    }
-
-    public void StartFire()
-    {
-        if(fire) return;
-        fire = true;
-        _rbBullet.isKinematic = false;
-        Fire();
-    }
-
-    private void Fire()
-    {
-        var enemy = Random.Range(0, fireenemy.Count-1);
-        _rbBullet.isKinematic = true;
-        StartCoroutine(FireEnemy(fireenemy[enemy].transform, bullet));
+        return Instantiate(prefabEnemy, fieldWithEnemy.transform);
     }
 
     public void DamagePlayer()
@@ -174,24 +104,20 @@ public class EnemyController : MonoBehaviour
         PlayerDamage?.Invoke();
     }
 
-    public void StartAttack(List<ArmyEnemy> armyEnemies, float speedattack)
-    {
-        enemysPosition = armyEnemies;
-        speed = speedattack;
-        CreateArmyEnemy(enemysPosition[0]._PolkEnemies);
-    }
-
     public void LosePlayer()
     {
         DOTween.Clear();
     }
 
-    private IEnumerator FireEnemy(Transform enemy, GameObject bullet)
+    public void RemovePositionArmy()
     {
-        _rbBullet.isKinematic = false;
-        bullet.transform.position = enemy.position;
-        yield return new WaitForSeconds(1);
-        Fire();
+        _manipulateEnemy.RemovePositionArmy(_startPositionEnemy);
     }
-    
+    public void StartAttack(List<ArmyEnemy> armyEnemies, float speedattack)
+    {
+        volna = 0;
+        enemysPosition = armyEnemies;
+        speed = speedattack;
+        CreateArmyEnemy(enemysPosition[volna]._PolkEnemies);
+    }
 }

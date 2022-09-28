@@ -1,10 +1,8 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class MovingBackground : MonoBehaviour
 {
-    [SerializeField] private float speed;
     [SerializeField] private GameObject _bodyBackGround;
     [SerializeField] private Transform _endPoint;
     private Vector3 startpos;
@@ -15,7 +13,7 @@ public class MovingBackground : MonoBehaviour
         startpos = transform.position;
     }
 
-    public void StartMoving()
+    public void StartMoving(float speed)
     {
         transform.position = startpos;
         _bodyBackGround.transform.DOMove(_endPoint.position, speed);

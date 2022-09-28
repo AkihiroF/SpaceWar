@@ -303,19 +303,19 @@
 -r:"Library/Bee/artifacts/2000b0aP.dag/Unity.VisualScripting.State.ref.dll"
 -r:"Library/Bee/artifacts/2000b0aP.dag/UnityEngine.UI.ref.dll"
 "Assets/Resources/Scripts/BulletController.cs"
-"Assets/Resources/Scripts/CustomEditor.cs"
 "Assets/Resources/Scripts/EnemyController.cs"
 "Assets/Resources/Scripts/EnemyHP.cs"
 "Assets/Resources/Scripts/GunController.cs"
 "Assets/Resources/Scripts/InputManager.cs"
 "Assets/Resources/Scripts/ManagerScore.cs"
-"Assets/Resources/Scripts/MathParameters.cs"
-"Assets/Resources/Scripts/ModificateRectTransform.cs"
 "Assets/Resources/Scripts/MovingBackground.cs"
+"Assets/Resources/Scripts/NoMano/ManipulateEnemy.cs"
+"Assets/Resources/Scripts/NoMano/MathParameters.cs"
+"Assets/Resources/Scripts/NoMano/ModificateRectTransform.cs"
+"Assets/Resources/Scripts/NoMano/UnityMainThreadDispatcher.cs"
 "Assets/Resources/Scripts/PlayerController.cs"
 "Assets/Resources/Scripts/SO/ArmyEnemy.cs"
 "Assets/Resources/Scripts/SO/LevelArmy.cs"
-"Assets/Resources/Scripts/UnityMainThreadDispatcher.cs"
 -langversion:9.0
 
 /deterministic
